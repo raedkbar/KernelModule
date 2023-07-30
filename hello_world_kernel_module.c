@@ -9,10 +9,13 @@ MODULE_DESCRIPTION("Hello world with nf_register_hook");
 
 // The function that will be executed when a packet passes through the hook
 static unsigned int my_hook_func(void *priv, struct sk_buff *skb, const struct nf_hook_state *state) {
-    int i;
-    for (i = 0; i < 10; ++i) {
-        printk(KERN_INFO "Hello world\n"); // Print "Hello world" message to the kernel log 10 times
-    }
+    static int counter = 0;
+    if (counter < 10) {
+        printk(KERN_INFO "%d. Hello world\n", counter); // Print "Hello world" message to the kernel log 10 times
+        counter++;
+        
+       }
+       
     return NF_ACCEPT; // Accept the packet and let it continue through the network stack
 }
 
@@ -26,7 +29,7 @@ static struct nf_hook_ops my_hook = {
 
 // Module initialization function
 static int __init hello_init(void) {
-    int ret = nf_register_net_hook(&init, &my_hook); // Register the hook with Netfilter framework
+    int ret = nf_register_net_hook(&init_net, &my_hook); // Register the hook with Netfilter framework
     if (ret < 0) {
         printk(KERN_ERR "Failed to register netfilter hook\n"); // Print an error message if registration fails
         return ret; // Return the error code to indicate module loading failure
@@ -38,7 +41,7 @@ static int __init hello_init(void) {
 
 // Module exit function
 static void __exit hello_exit(void) {
-    nf_unregister_net_hook(&init, &my_hook); // Unregister the hook from Netfilter framework
+    nf_unregister_net_hook(&init_net, &my_hook); // Unregister the hook from Netfilter framework
     printk(KERN_INFO "Module unloaded\n"); // Print a message indicating the module is being unloaded
 }
 
