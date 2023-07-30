@@ -26,7 +26,7 @@ static struct nf_hook_ops my_hook = {
 
 // Module initialization function
 static int __init hello_init(void) {
-    int ret = nf_register_hook(&my_hook); // Register the hook with Netfilter framework
+    int ret = nf_register_net_hook(&init, &my_hook); // Register the hook with Netfilter framework
     if (ret < 0) {
         printk(KERN_ERR "Failed to register netfilter hook\n"); // Print an error message if registration fails
         return ret; // Return the error code to indicate module loading failure
@@ -38,7 +38,7 @@ static int __init hello_init(void) {
 
 // Module exit function
 static void __exit hello_exit(void) {
-    nf_unregister_hook(&my_hook); // Unregister the hook from Netfilter framework
+    nf_unregister_net_hook(&init, &my_hook); // Unregister the hook from Netfilter framework
     printk(KERN_INFO "Module unloaded\n"); // Print a message indicating the module is being unloaded
 }
 
