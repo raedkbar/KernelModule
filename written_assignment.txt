@@ -1,0 +1,20 @@
+Task 1: Introduction to Kernel Modules
+1. Explain what a kernel module is:
+
+Kernel is the core that provides basic services for all other parts of the OS. It generally has complete control over the system.
+
+2. What are the advantages and disadvantages of using kernel modules?:
+-advantages: 
+i. An operating system would have to include all the systems that provided all anticipated functionalities in the base kernel if there were no loadable modules. This would lead to wastage of memory as most of those systems would not be used often.
+
+ii. The users would need to rebuild and reboot the base kernel every time they would require a new functionality.
+
+disadvantages:
+i. Every time a new kernel module code is inserted, the kernel becomes fragmented. This leads to a performance issues.
+
+-Explain the relationship between the kernel and a kernel module:
+A kernel module is something that can be inserted into or removed from the kernel at runtime, that provides additional functionality, which the Kernel implements.
+
+-List some examples of real-world kernel modules:
+i. Device driver, which allows the kernel to access hardware connected to the system.
+ii. Hardware agnostic GKI modules and hardware-specific vendor modules
